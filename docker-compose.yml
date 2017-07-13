@@ -12,14 +12,16 @@ services:
     ports:
       - "5432:5432"
 
-  general_db-migrate:
-    image: davey/migrate-ready
-    entrypoint: "bash -c \"bash <(tr -d '\r' < /migrations/docker_db.sh)\""
+  go-api:
+    build: "."
+    container_name: "mozart-config-api"
     environment:
+      - APP_ENV=dev
       - PGPASSWORD=postgres
-    volumes:
-      - ./infrastructure/:/migrations
+    expose:
+      - "8080"
     links:
       - "general_db:db"
-    depends_on:
-      - "general_db"
+    ports:
+      - "6001:8080"
+    restart: "always"

@@ -5,7 +5,7 @@ import "github.com/DaveBlooman/go-app/models"
 const (
 	allArticles = `
     SELECT *
-    FROM article.data
+    FROM articles
     ORDER BY publish_date
   `
 )
@@ -21,7 +21,7 @@ func (persistence *Persistence) GetAllArticles() (*[]models.Mapping, error) {
 
 	for rows.Next() {
 		var item models.Mapping
-		err = rows.Scan(&item.Name, &item.Content, &item.PublishDate)
+		err = rows.Scan(&item.ID, &item.Name, &item.Content, &item.PublishDate)
 		if err != nil {
 			return nil, err
 		}
